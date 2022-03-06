@@ -1,0 +1,13 @@
+server:
+  port: 6101
+
+spring:
+  application:
+    name: rocketmq-producer
+
+rocketmq:
+  name-server: 127.0.0.1:9876
+  producer:
+    group: mq-producer-2
+    send-message-timeout: 9000
+

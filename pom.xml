@@ -4,9 +4,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <modules>
-        <module>lik-rocketmq-consumer</module>
-        <module>lik-rocketmq-producer</module>
-        <module>lik-rocketmq-consumer2</module>
+        <module>lik-rocketmq-distributed-transaction</module>
+        <module>lik-rocketmq</module>
+        <module>lik-common</module>
+        <module>lik-test</module>
+        <module>lik-model</module>
     </modules>
 
     <parent>
@@ -24,14 +26,35 @@
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
-        <hutool-all.version>5.5.4</hutool-all.version>
+        <spring-cloud.version>2021.0.0</spring-cloud.version>
+        <spring-cloud-alibaba.version>2.1.2.RELEASE</spring-cloud-alibaba.version>
+        <hutool-all.version>5.7.20</hutool-all.version>
         <rocketmq-spring-boot.version>2.2.0</rocketmq-spring-boot.version>
         <rocketmq.version>4.8.0</rocketmq.version>
         <lombok.version>1.18.22</lombok.version>
+        <druid.version>1.2.8</druid.version>
+        <mysql-connector.version>8.0.28</mysql-connector.version>
+        <mybatis-plus.version>3.5.1</mybatis-plus.version>
+        <mybatis-spring-boot.version>2.2.2</mybatis-spring-boot.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
 
             <dependency>
                 <groupId>org.apache.rocketmq</groupId>
@@ -56,6 +79,31 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-connector.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-spring-boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>
@@ -84,6 +132,24 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
+
+        <!--资源往往不是代码，无需编译，而是一些properties或XML配置文件，构建过程中会往往会将资源文件从源路径复制到指定的目标路径。-->
+        <resources>
+            <resource>
+                <!--directory，资源文件的路径，默认位于${basedir}/src/main/resources/目录下-->
+                <directory>src/main/java</directory>
+                <!--includes，一组文件名的匹配模式，被匹配的资源文件将被构建过程处理-->
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+                <!--excludes：指定哪些文件被忽略，如果一个文件同时符合includes和excludes，则excludes生效；-->
+                <excludes>
+                    <exclude>**/*.properties</exclude>
+                </excludes>
+                <!--filtering，构建过程中是否对资源进行过滤，默认false-->
+                <filtering>false</filtering>
+            </resource>
+        </resources>
     </build>
 
 </project>

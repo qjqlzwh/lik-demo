@@ -1,0 +1,49 @@
+server:
+  port: 6201
+
+spring:
+  application:
+    name: lik-dr-order
+  #返回json的全局时间格式
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+
+  # 数据库连接
+  datasource:
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/lik_tiger?serverTimezone=GMT%2B8
+
+  # nacos
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+
+  main:
+    allow-bean-definition-overriding: true
+
+mybatis-plus:
+  mapper-locations: classpath:com/lik/mapper/xml/*.xml
+  configuration:
+    cache-enabled: false
+#    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#
+#logging:
+#  level:
+#    com.lik: debug
+#
+## feign 日志, 需要开启上面的debug日志级别
+#feign:
+#  client:
+#    config:
+#      default:
+#        loggerLevel: full
+
+rocketmq:
+  name-server: 127.0.0.1:9876
+  producer:
+    group: lik-dr-order-producer
+    send-message-timeout: 10000

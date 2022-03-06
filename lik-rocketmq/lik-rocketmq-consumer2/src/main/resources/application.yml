@@ -1,0 +1,11 @@
+server:
+  port: 6103
+
+spring:
+  application:
+    name: rocketmq-consumer2
+
+rocketmq:
+  name-server: 127.0.0.1:9876
+
+
